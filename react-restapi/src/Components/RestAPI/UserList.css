@@ -1,0 +1,76 @@
+/* style for the user list container */
+.user-list-container {
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 800px;
+  }
+  
+  /* style for the heading */
+  .user-list-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  /* style for the user table */
+  .user-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* style for table cells */
+  .user-table th, .user-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  /* style for table header cells */
+  .user-table th {
+    background-color: #f4f4f4;
+    color: #333;
+  }
+  
+  /* style for alternating row colors */
+  .user-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  /* style for row hover effect */
+  .user-table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* style for the add user form */
+  .add-user-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin: 20px auto;
+  }
+  
+  /* style for form inputs */
+  .add-user-form input {
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  /* style for the submit button */
+  .add-user-form button {
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  /* style for button hover effect */
+  .add-user-form button:hover {
+    background-color: #218838;
+  }
+  
