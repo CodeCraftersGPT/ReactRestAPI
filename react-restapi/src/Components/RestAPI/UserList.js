@@ -15,6 +15,8 @@ const [newUser,setNewUser] = useState({
   password: ''
 });
 
+const [editingUser, setEditingUser] = useState(null);
+
 
     useEffect(() => {
         axios.get('http://localhost:5000/api/users')
@@ -29,10 +31,18 @@ const [newUser,setNewUser] = useState({
 
     const handleChange = (e) =>{
       const {name,value} = e.target;
-      setNewUser({
-        ...newUser,
-        [name]:value
-      });
+      if(editingUser){
+        setEditingUser({
+          ...editingUser,
+          [name]:value
+        });
+      }
+      else{
+        setNewUser({
+          ...newUser,
+          [name]:value
+        });
+      }
     };
 
     const handleAddUser =(e) =>{
@@ -61,6 +71,28 @@ const [newUser,setNewUser] = useState({
       });
     };
 
+    const handleEditUser = (user) =>{
+      setEditingUser(user);
+    }
+
+    const handleUpdateUser = (e) =>{
+      e.preventDefault();
+      // post the user information
+      axios.put(`http://localhost:5000/api/users/${editingUser.id}`,editingUser)
+      .then(response =>{
+        setUsers(users.map(user => (user.id === editingUser.id ? editingUser : user)));
+        setEditingUser(null);
+      })
+      .catch(error =>{
+        console.log('There is an error in updating the user information',error)
+      });
+    };
+
+    const handleCancelEdit = () =>
+    {
+      setEditingUser(null);
+    }
+
 
 
     return(
@@ -82,18 +114,21 @@ const [newUser,setNewUser] = useState({
               <td>{user.username}</td>
               <td>{user.email}</td>
               <td>{user.phone}</td>
+              <td>
+                <button onClick={() => handleEditUser(user)}>Edit</button>
+              </td>
             </tr>
           ))}
         </tbody>
       </table> 
-      <h2>Add New User</h2>
-      <form onSubmit={handleAddUser} className="add-user-form">
-        <input type='text' name='username' placeholder='username' value={newUser.userName} onChange={handleChange} required></input>
+      <h2>{editingUser ? 'Edit User' : 'Add New User'}</h2>
+      <form onSubmit={editingUser ? handleUpdateUser : handleAddUser} className="add-user-form">
+        <input type='text' name='username' placeholder='username' value={editingUser ? editingUser.username : newUser.username} onChange={handleChange} required></input>
         <input
           type="email"
           name="email"
           placeholder="Email"
-          value={newUser.email}
+          value={editingUser ? editingUser.email : newUser.email}
           onChange={handleChange}
           required
         />
@@ -101,7 +136,7 @@ const [newUser,setNewUser] = useState({
           type="tel"
           name="phone"
           placeholder="Phone"
-          value={newUser.phone}
+          value={editingUser ? editingUser.phone : newUser.phone}
           onChange={handleChange}
           required
         />
@@ -110,12 +145,12 @@ const [newUser,setNewUser] = useState({
           type="password"
           name="password"
           placeholder="Password"
-          value={newUser.password}
+          value={editingUser ? editingUser.password : newUser.password}
           onChange={handleChange}
           required
         />
-        <button type='submit'>Add User</button>
-
+        <button type='submit'>{editingUser? 'Update User':'Add User'}</button>
+        {editingUser && <button type='button' onClick={handleCancelEdit}>Cancel</button>}
       </form>
         </div>
     );
